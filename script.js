@@ -2,7 +2,7 @@
 const game =
 {
     min: 1,
-    max: 1000,
+    max: 100,
 
     initialize()
     {
@@ -27,7 +27,7 @@ const game =
         document.querySelector("#btn-again").addEventListener("click", this.domBtnAgainEventOnClick.bind(this));
         
         document.querySelector(".guess").addEventListener("keypress", this.domInputGuessEventOnKeyPress.bind(this));
-        // new Audio("res\\init.mp3").play();
+        // new Audio("res/init.mp3").play();
     },
 
     
@@ -45,8 +45,8 @@ const game =
         this.setGuesses = new Set();
         this.secretNumber = this.random();
         
-        this.domConfigure();
-        console.log(`secretNumber: ${this.secretNumber}`);
+        this.domStartGame();
+        // console.log(`secretNumber: ${this.secretNumber}`);
     },
     
     check(number)
@@ -120,7 +120,7 @@ const game =
         this.domUpdateMessageInvalidNumber();
     },
     
-    domConfigure()
+    domStartGame()
     {
         this.domUpdateScore();
         this.domUpdateHighScore();
@@ -173,16 +173,18 @@ const game =
 
     domBtnCheckEventOnClick()
     {
-        console.log("dom check event on click");
-        console.log(this);
-        if(this.isGameOver)
-        {
-            return;
-        }
+        // console.log("dom check event on click");
+        // console.log(this);
+        // if(this.isGameOver)
+        // {
+        //     return;
+        // }
 
         let input = this.domInputGuess.value;
+        // console.log(`input: ${input}, number: ${Number(input)}`);
         if(input == "")
         {
+            
             this.domUpdateMessageInvalidNumber();
             return;
         }
@@ -198,7 +200,7 @@ const game =
 
     domInputGuessEventOnKeyPress(event)
     {
-        console.log("keypress");
+        // console.log("key press");
         if(event.key == "Enter")
         {
             this.domBtnCheckEventOnClick();
