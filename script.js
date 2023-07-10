@@ -2,12 +2,12 @@
 const game =
 {
     min: 1,
-    max: 10,
+    max: 1000,
 
     initialize()
     {
         document.querySelector(".between").textContent = `between ${this.min} and ${this.max} (inclusive)`;
-        this.scoreMax = 2 * Math.trunc(Math.log(this.max - this.min + 1));
+        this.scoreMax = 2 * Math.ceil(Math.log2(this.max - this.min + 1));
         this.highScore = 0;
         
         this.domInitialize();
@@ -113,6 +113,12 @@ const game =
         this.start();
         new Audio("res/again.mp3").play();
     },
+
+    invalidNumber()
+    {
+        new Audio("res/invalid-number.mp3").play();
+        this.domUpdateMessageInvalidNumber();
+    },
     
     domConfigure()
     {
@@ -123,6 +129,7 @@ const game =
 
         this.domSectionLeft.classList.remove("hidden");
         document.querySelector(".number").textContent = "";
+        document.querySelector(".guess").value = "0";
         this.domDisplayMessage.classList.remove("message-game-over");
         
     },
@@ -135,11 +142,7 @@ const game =
 
     domUpdateMessage(number)
     {
-        if(number < this.min || number > this.max)
-        {
-            this.domUpdateMessageInvalidNumber();
-            return;
-        }
+        
         
         if(number > this.secretNumber)
         {
@@ -184,7 +187,13 @@ const game =
             return;
         }
 
-        this.check(Number(input));
+        let number = Number(input);
+        if(number < this.min || number > this.max)
+        {
+            this.invalidNumber();
+            return;
+        }
+        this.check(number);
     },
 
     domInputGuessEventOnKeyPress(event)
